@@ -66,9 +66,22 @@ $(document).ready(function () {
             }
 
         } else {
-            $("form").html(
-            '<div class="alert alert-success">' + data.message + "</div>"
-            );
+            $.ajax({
+                type: "POST",
+                url: "controller/insert.php",
+                data: formData,
+                dataType: "json",
+                encode: true,
+              }).done(function (data) {
+                $("form").html(
+                    '<div class="alert alert-success">' + data.message + "</div>"
+                );
+            }).fail(function (data) {
+                console.log(data);
+                $("form").html(
+                  '<div class="alert alert-danger">' + data.errors + "</div>"
+                );
+              });
         }
       }).fail(function (data) {
         $("form").html(
